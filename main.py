@@ -6,7 +6,15 @@ from constValues import countryCode, surveyNumeric, \
 
 low_memory = False
 
-ValueFile = pd.read_csv(surveyValues)
-newValueFile = ValueFile['CountryNumeric2'].value_counts()
-print('Количество опрошенных из РФ:', newValueFile.ix['Russian Federation'])
+numericFile = pd.read_csv(surveyNumeric)
+valueFile = pd.read_csv(surveyValues)
+respondentsRF = valueFile['CountryNumeric2'].value_counts().ix['Russian Federation']
+print('Всего из РФ: ', respondentsRF)
+studentsFromRF = numericFile.loc[(numericFile['CountryNumeric2'] == 138) & (numericFile['q8Student'] == 1)]
+studentsFromRF = studentsFromRF['q8Student'].value_counts().ix[1]
+print('Процент студентов из РФ: ', float('{:.2f}'.format((studentsFromRF / respondentsRF) * 100)))
+
+
+# 138 код РФ
+# q8Student = 1 значит студент
 
