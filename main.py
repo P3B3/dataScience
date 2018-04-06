@@ -1,4 +1,10 @@
 import numpy as np
 import pandas as pd
+import csv
 
-print('init')
+
+countryCode = 'Country-Code-Mapping.csv'
+
+printFile = pd.read_csv(countryCode)
+
+print(printFile)
