@@ -1,16 +1,12 @@
-import numpy as np
 import pandas as pd
-import csv
 from percent import percentage_of
 from formatNum import format_float_num
-from constValues import countryCode, surveyNumeric, \
-    surveyCodebook, surveyNumericMapping, surveyValues
+from constValues import surveyNumeric
 
-low_memory = False
 # 138 код РФ
 # q8Student = 1 значит студент
 
-numericFile = pd.read_csv(surveyNumeric)
+numericFile = pd.read_csv(surveyNumeric, low_memory=False)
 respondentsRF = numericFile['CountryNumeric2'].value_counts().ix[138].astype(int)
 print('Всего из РФ: ', respondentsRF)
 
