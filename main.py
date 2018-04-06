@@ -8,9 +8,10 @@ from constValues import countryCode, surveyNumeric, \
 low_memory = False
 
 numericFile = pd.read_csv(surveyNumeric)
-valueFile = pd.read_csv(surveyValues)
-respondentsRF = valueFile['CountryNumeric2'].value_counts().ix['Russian Federation'].astype(int)
+respondentsRF = numericFile['CountryNumeric2'].value_counts().ix[138].astype(int)
+
 print('Всего из РФ: ', respondentsRF)
+
 studentsFromRF = (numericFile.loc[(numericFile['CountryNumeric2'] == 138) &
                                   (numericFile['q8Student'] == 1)])['q8Student'].value_counts().ix[1].astype(int)
 print('Процент студентов из РФ: ', float('{:.2f}'.format(percentage_of(studentsFromRF, respondentsRF))))
@@ -26,3 +27,5 @@ mobileDeveloperRoles = numericFile['q9CurrentRole'].value_counts().ix['7'].astyp
 print('Процент веб разработчиков: ', float('{:.2f}'.format(percentage_of(webDeveloperRoles, respondentsRoles))))
 print('Процент дата разработчиков: ', float('{:.2f}'.format(percentage_of(dataScientistRoles, respondentsRoles))))
 print('Процент моб разработчиков: ', float('{:.2f}'.format(percentage_of(mobileDeveloperRoles, respondentsRoles))))
+
+print(numericFile['CountryNumeric2'].value_counts().ix[138])
