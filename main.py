@@ -1,42 +1,47 @@
 import pandas as pd
-import plotly
 import plotly.offline as offline
 from percent import percentage_of
 from formatNum import format_float_num
-from constValues import surveyNumeric
+from constValues import survey_numeric
 
 # 138 код РФ
 # q8Student = 1 значит студент
+"""
+respondentsRF  - количество опрошенных из РФ
+"""
+numeric_file = pd.read_csv(survey_numeric, low_memory=False)
+respondents_RF = numeric_file['CountryNumeric2'].value_counts().ix[138].astype(int)
+"""
 
-numericFile = pd.read_csv(surveyNumeric, low_memory=False)
-respondentsRF = numericFile['CountryNumeric2'].value_counts().ix[138].astype(int)
-print('Всего из РФ: ', respondentsRF)
+"""
+students_RF = (numeric_file.loc[(numeric_file['CountryNumeric2'] == 138) &
+                                (numeric_file['q8Student'] == 1)])['q8Student'].value_counts().ix[1].astype(int)
+stud_RF_percent = format_float_num(percentage_of(students_RF, respondents_RF))
+"""
 
-studentsFromRF = (numericFile.loc[(numericFile['CountryNumeric2'] == 138) &
-                                  (numericFile['q8Student'] == 1)])['q8Student'].value_counts().ix[1].astype(int)
-studPercent = format_float_num(percentage_of(studentsFromRF, respondentsRF))
-print('Процент студентов из РФ: ', studPercent)
+"""
+respondents_roles = numeric_file['q9CurrentRole'].value_counts().sum()
+web_dev_roles = numeric_file['q9CurrentRole'].value_counts().ix['1'].astype(int)
+data_science_roles = numeric_file['q9CurrentRole'].value_counts().ix['6'].astype(int)
+mobile_dev_roles = numeric_file['q9CurrentRole'].value_counts().ix['7'].astype(int)
+web_dev_percent = format_float_num(percentage_of(web_dev_roles, respondents_roles))
+data_science_dev = format_float_num(percentage_of(data_science_roles, respondents_roles))
+mobile_dev_percent = format_float_num(percentage_of(mobile_dev_roles, respondents_roles))
+"""
 
-respondentsRoles = numericFile['q9CurrentRole'].value_counts().sum()
-webDeveloperRoles = numericFile['q9CurrentRole'].value_counts().ix['1'].astype(int)
-dataScientistRoles = numericFile['q9CurrentRole'].value_counts().ix['6'].astype(int)
-mobileDeveloperRoles = numericFile['q9CurrentRole'].value_counts().ix['7'].astype(int)
-webPercent = format_float_num(percentage_of(webDeveloperRoles, respondentsRoles))
-dataPercent = format_float_num(percentage_of(dataScientistRoles, respondentsRoles))
-mobPercent = format_float_num(percentage_of(mobileDeveloperRoles, respondentsRoles))
-print('Процент веб разработчиков: ', webPercent)
-print('Процент дата разработчиков: ', dataPercent)
-print('Процент моб разработчиков: ', mobPercent)
+"""
+trueAnswersRF = numeric_file.loc[numeric_file['CountryNumeric2'] == 138].count(axis=1).min().astype(int)
+answerTruePercent = format_float_num(percentage_of(trueAnswersRF, respondents_RF))
 
-trueAnswersRF = numericFile.loc[numericFile['CountryNumeric2'] == 138].count(axis=1).min().astype(int)
-answerTruePercent = format_float_num(percentage_of(trueAnswersRF, respondentsRF))
-print('Процент правильно ответивших из РФ: ', answerTruePercent)
+"""
+
+"""
 
 
 def draw_charts():
     offline.plot({
         'data': [{'labels': ['Web-разработка', 'Data Science', 'Мобильная разработка', 'Другое'],
-                  'values': [webPercent, dataPercent, mobPercent, 100 - (webPercent + dataPercent + mobPercent)],
+                  'values': [web_dev_percent, data_science_dev, mobile_dev_percent, 100 - (web_dev_percent + data_science_dev + mobile_dev_percent)],
                   'type': 'pie',
                   "domain": {"x": [.52, 1],
                              "y":[.51, 1]},
@@ -56,12 +61,12 @@ def draw_charts():
                  },
                  {
                      'labels': ['Студенты', 'Другое'],
-                     'values': [studPercent, 100 - studPercent],
+                     'values': [stud_RF_percent, 100 - stud_RF_percent],
                      'type': 'pie',
                      "domain": {"x": [0, .48],
                                 "y": [.51, 1]},
                      "hole": .5,
-                     'name': str(respondentsRF) + ' участников опроса из России',
+                     'name': str(respondents_RF) + ' участников опроса из России',
                      "hoverinfo": "label+percent+name"
                  }],
         'layout': {'title': 'Data Science'}
