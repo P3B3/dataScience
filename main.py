@@ -1,7 +1,5 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import plotly.plotly as py
-import plotly.graph_objs as go
+import plotly
 import plotly.offline as offline
 from percent import percentage_of
 from formatNum import format_float_num
@@ -35,25 +33,7 @@ answerTruePercent = format_float_num(percentage_of(trueAnswersRF, respondentsRF)
 print('Процент правильно ответивших из РФ: ', answerTruePercent)
 
 
-def draw_RF_stud():
-    offline.plot({
-        'data': [{'labels': ['Студенты', 'Другое'],
-                  'values': [studPercent, 100 - studPercent],
-                  'type': 'pie'}],
-        'layout': {'title': 'Число опрошенных программистов из России: ' + str(respondentsRF)}
-    })
-
-
-def draw_true_answer():
-    offline.plot({
-        'data': [{'labels': ['Правильно', 'Не правильно'],
-                  'values': [answerTruePercent, 100 - answerTruePercent],
-                  'type': 'pie'}],
-        'layout': {'title': 'Ответили: '}
-    })
-
-
-def draw_percent_of_roles():
+def draw_charts():
     offline.plot({
         'data': [{'labels': ['Web-разработка', 'Data Science', 'Мобильная разработка', 'Другое'],
                   'values': [webPercent, dataPercent, mobPercent, 100 - (webPercent + dataPercent + mobPercent)],
@@ -88,5 +68,5 @@ def draw_percent_of_roles():
     })
 
 
-draw_percent_of_roles()
+draw_charts()
 
