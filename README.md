@@ -11,3 +11,6 @@ pip install pandas 0.22.0
 ```
 pip install plotly 2.5.1
 ```
+
+<h1>To see nice charts</h1>
+<h3>Run main.py</h3>
