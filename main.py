@@ -5,7 +5,7 @@ from formatNum import format_float_num
 from constValues import survey_numeric
 
 """
-respondentsRF  - количество опрошенных из РФ
+respondentsRF  - respondents from Russia
 
 .value_counts()
 Returns object containing counts of unique values.
@@ -23,6 +23,10 @@ respondents_RF = numeric_file['CountryNumeric2'].value_counts().loc[138].astype(
 
 # 138 RF country code
 # q8Student = 1  => student
+"""
+students_RF - respondents from Russia which are students 
+stud_RF_percent - percentage of respondents which are students from Russia
+"""
 students_RF = (numeric_file.loc[(numeric_file['CountryNumeric2'] == 138) &
                                 (numeric_file['q8Student'] == 1)])['q8Student'].value_counts().loc[1].astype(int)
 stud_RF_percent = format_float_num(percentage_of(students_RF, respondents_RF))
@@ -30,6 +34,14 @@ stud_RF_percent = format_float_num(percentage_of(students_RF, respondents_RF))
 """
 .sum()
 Return the sum of the values for the requested axis
+
+respondents_roles - total number of roles 
+web_dev_roles - number of web developers 
+data_science_roles - number of data science developers 
+mobile_dev_roles - number of mobile developers 
+web_dev_percent - web developer's percentage of the total number of all respondents 
+data_science_dev - data science developer's percentage of the total number of all respondents 
+mobile_dev_percent - mobile developer's percentage of the total number of all respondents 
 """
 respondents_roles = numeric_file['q9CurrentRole'].value_counts().sum()
 web_dev_roles = numeric_file['q9CurrentRole'].value_counts().loc['1'].astype(int)
@@ -45,6 +57,10 @@ Return Series with number of non-NA/null observations over requested axis.
 Works with non-floating point data as well (detects NaN and None)
     axis : {0 or ‘index’, 1 or ‘columns’}, default 0
         0 or ‘index’ for row-wise, 1 or ‘columns’ for column-wise
+
+true_answers_RF - number of respondents from Russia who answered all questions correctly 
+answer_true_percent - percentage of respondents from Russia who answered all questions
+correctly of the total number of Russian respondents  
 """
 true_answers_RF = numeric_file.loc[numeric_file['CountryNumeric2'] == 138].count(axis=1).min().astype(int)
 answer_true_percent = format_float_num(percentage_of(true_answers_RF, respondents_RF))
