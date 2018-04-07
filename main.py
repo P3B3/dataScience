@@ -1,5 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import plotly.plotly as py
+import plotly.graph_objs as go
+import plotly.offline as offline
 from percent import percentage_of
 from formatNum import format_float_num
 from constValues import surveyNumeric
@@ -32,51 +35,58 @@ answerTruePercent = format_float_num(percentage_of(trueAnswersRF, respondentsRF)
 print('Процент правильно ответивших из РФ: ', answerTruePercent)
 
 
-def draw_percent_of_roles():
-    # create data
-    names = 'web', 'data', 'mob', 'other',
-    size = [webPercent, dataPercent, mobPercent, 100 - (webPercent + dataPercent + mobPercent)]
-
-    # Create a circle for the center of the plot
-    my_circle = plt.Circle((0, 0), 0.7, color='white')
-
-    plt.pie(size, labels=names, wedgeprops={'linewidth': 7, 'edgecolor': 'white'})
-    fig = plt.gcf()
-    fig.gca().add_artist(my_circle)
-    plt.show()
-
-
 def draw_RF_stud():
-    # create data
-    names = 'students', 'other',
-    size = [studPercent, 100 - studPercent]
-
-    # Create a circle for the center of the plot
-    my_circle = plt.Circle((0, 0), 0.7, color='white')
-
-    plt.title('Всего из РФ: ')
-    plt.title(respondentsRF)
-    plt.pie(size, labels=names, wedgeprops={'linewidth': 7, 'edgecolor': 'white'}, autopct='%1.1f%%', startangle=90)
-    fig = plt.gcf()
-    fig.gca().add_artist(my_circle)
-    plt.show()
+    offline.plot({
+        'data': [{'labels': ['Студенты', 'Другое'],
+                  'values': [studPercent, 100 - studPercent],
+                  'type': 'pie'}],
+        'layout': {'title': 'Число опрошенных программистов из России: ' + str(respondentsRF)}
+    })
 
 
 def draw_true_answer():
-    # create data
-    names = 'Answ true', 'other',
-    size = [answerTruePercent, 100 - answerTruePercent]
+    offline.plot({
+        'data': [{'labels': ['Правильно', 'Не правильно'],
+                  'values': [answerTruePercent, 100 - answerTruePercent],
+                  'type': 'pie'}],
+        'layout': {'title': 'Ответили: '}
+    })
 
-    # Create a circle for the center of the plot
-    my_circle = plt.Circle((0, 0), 0.7, color='white')
 
-    plt.title('Ответили правильно: ')
-    plt.pie(size, labels=names, wedgeprops={'linewidth': 7, 'edgecolor': 'white'}, autopct='%1.1f%%', startangle=90)
-    fig = plt.gcf()
-    fig.gca().add_artist(my_circle)
-    plt.show()
+def draw_percent_of_roles():
+    offline.plot({
+        'data': [{'labels': ['Web-разработка', 'Data Science', 'Мобильная разработка', 'Другое'],
+                  'values': [webPercent, dataPercent, mobPercent, 100 - (webPercent + dataPercent + mobPercent)],
+                  'type': 'pie',
+                  "domain": {"x": [.52, 1],
+                             "y":[.51, 1]},
+                  "hole": .5,
+                  'name':'Чем занимаются опрошенные',
+                  "hoverinfo": "label+percent+name"
+                  },
+                 {
+                     'labels': ['Правильно', 'Не правильно'],
+                     'values': [answerTruePercent, 100 - answerTruePercent],
+                     'type': 'pie',
+                     "domain": {"x": [.52, 1],
+                                "y": [0, .49]},
+                     "hole": .5,
+                     'name': 'Ответы на все вопросы',
+                     "hoverinfo": "label+percent+name"
+                 },
+                 {
+                     'labels': ['Студенты', 'Другое'],
+                     'values': [studPercent, 100 - studPercent],
+                     'type': 'pie',
+                     "domain": {"x": [0, .48],
+                                "y": [.51, 1]},
+                     "hole": .5,
+                     'name': 'Ответы на все вопросы',
+                     "hoverinfo": "label+percent+name"
+                 }],
+        'layout': {'title': 'Data Science'}
+    })
 
 
 draw_percent_of_roles()
-draw_RF_stud()
-draw_true_answer()
+
