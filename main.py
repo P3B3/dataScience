@@ -51,7 +51,7 @@ def draw_charts():
                      "domain": {"x": [.52, 1],
                                 "y": [0, .49]},
                      "hole": .5,
-                     'name': 'Ответы на все вопросы',
+                     'name': 'Ответы на все вопросы участников из России',
                      "hoverinfo": "label+percent+name"
                  },
                  {
@@ -61,7 +61,7 @@ def draw_charts():
                      "domain": {"x": [0, .48],
                                 "y": [.51, 1]},
                      "hole": .5,
-                     'name': 'Ответы на все вопросы',
+                     'name': str(respondentsRF) + ' участников опроса из России',
                      "hoverinfo": "label+percent+name"
                  }],
         'layout': {'title': 'Data Science'}
