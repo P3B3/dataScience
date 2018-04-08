@@ -1,6 +1,8 @@
 <h1>Before starting</h1>
 <h2>Install:</h2>
 <h3>Python 3.6.x</h3>
+
+[Click to get](https://www.python.org/downloads)
 <h3>Pandas 0.22.x</h3>
 
 ```
