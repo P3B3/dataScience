@@ -2,11 +2,9 @@ import pandas as pd
 import plotly.offline as offline
 from percent import percentage_of
 from formatNum import format_float_num
-from constValues import survey_numeric
+from constValues import survey_numeric, survey_codebook, survey_values
 
 """
-respondentsRF  - respondents from Russia
-
 .value_counts()
 Returns object containing counts of unique values.
 The resulting object will be in descending order so that the first element is 
@@ -17,8 +15,12 @@ Purely label-location based indexer for selection by label.
 
 .astype()
 Cast a pandas object to a specified type 
+
+respondentsRF  - respondents from Russia
 """
 numeric_file = pd.read_csv(survey_numeric, low_memory=False)
+code_file = pd.read_csv(survey_codebook, low_memory=False)
+values_file = pd.read_csv(survey_values, low_memory=False)
 respondents_RF = numeric_file['CountryNumeric2'].value_counts().loc[138].astype(int)
 
 # 138 RF country code
@@ -52,18 +54,17 @@ data_science_dev = format_float_num(percentage_of(data_science_roles, respondent
 mobile_dev_percent = format_float_num(percentage_of(mobile_dev_roles, respondents_roles))
 
 """
-.count(axis=0)
-Return Series with number of non-NA/null observations over requested axis. 
-Works with non-floating point data as well (detects NaN and None)
-    axis : {0 or ‘index’, 1 or ‘columns’}, default 0
-        0 or ‘index’ for row-wise, 1 or ‘columns’ for column-wise
+.isin(values)
+Return boolean DataFrame showing whether each element in the DataFrame is contained in values.
 
 true_answers_RF - number of respondents from Russia who answered all questions correctly 
 answer_true_percent - percentage of respondents from Russia who answered all questions
 correctly of the total number of Russian respondents  
 """
-true_answers_RF = numeric_file.loc[numeric_file['CountryNumeric2'] == 138].count(axis=1).min().astype(int)
+true_answers_RF = values_file.loc[values_file['CountryNumeric2'] == 'Russian Federation']\
+    .index.isin(code_file.index).sum()
 answer_true_percent = format_float_num(percentage_of(true_answers_RF, respondents_RF))
+
 
 """
 draw_charts()
@@ -89,7 +90,7 @@ def draw_charts():
                      'values': [answer_true_percent, 100 - answer_true_percent],
                      'type': 'pie',
                      "domain": {"x": [.52, 1],
-                                "y": [0, .49]},
+                                "y": [0, .45]},
                      "hole": .5,
                      'name': 'Ответы на все вопросы участников из России',
                      "hoverinfo": "label+percent+name"
