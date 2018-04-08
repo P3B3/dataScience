@@ -22,4 +22,3 @@ pip install plotly 2.5.1
 <h1>Start</h1>
 <h2>Run DataScience.ipynb for matplolib charts</h3>
 <h2>Run main.py for pretty nice plotly charts in you browser</h3>
-<h3>See comments in main.py</h3>
