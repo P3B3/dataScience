@@ -8,16 +8,16 @@
 ```
 pip install pandas 0.22.0
 ```
-[Guide](https://pandas.pydata.org/pandas-docs/stable/install.html)
+[Pandas installation guide](https://pandas.pydata.org/pandas-docs/stable/install.html)
 <h3>Plotly 2.5.1</h3>
 
 ```
 pip install plotly 2.5.1
 ```
-[Guide](https://plot.ly/python/getting-started/)
+[Plotly installation guide](https://plot.ly/python/getting-started/)
 <h3>Matplotlib 2.2.x</h3>
 
-[Guide](https://matplotlib.org/users/installing.html#installing-an-official-release)
+[Matplotlib installation guide](https://matplotlib.org/users/installing.html#installing-an-official-release)
 
 <h1>Start</h1>
 <h2>Run DataScience.ipynb for matplolib charts</h3>
