@@ -6,7 +6,7 @@
 <h3>Pandas 0.22.x</h3>
 
 ```
-pip install pandas 0.22.0
+pip install pandas
 ```
 [Pandas installation guide](https://pandas.pydata.org/pandas-docs/stable/install.html)
 <h3>Plotly 2.5.1</h3>
